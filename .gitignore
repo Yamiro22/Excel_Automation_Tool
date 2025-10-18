@@ -1,0 +1,30 @@
+# === Python & VS Code Project .gitignore ===
+
+# Virtual environment
+venv/
+.env/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs and reports
+*.log
+logs/
+output/
+*.csv
+*.xlsx
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+.history/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

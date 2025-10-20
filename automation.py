@@ -10,6 +10,7 @@ from email.mime.text import MIMEText
 from email import encoders
 from pathlib import Path
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # ------------------------
 # Config & Paths
@@ -79,6 +80,32 @@ def merge_excels(files: list[Path]) -> pd.DataFrame:
     return merged
 
 # ------------------------
+# New Function: generate_summary
+# ------------------------
+
+def generate_summary(df: pd.DataFrame) -> pd.DataFrame:
+    summary_df = pd.DataFrame({
+        "Total Sales": [df["Sales"].sum()],
+        "Total Expenses": [df["Expenses"].sum()],
+        "Total Profit": [df["Sales"].sum() - df["Expenses"].sum()]
+    })
+
+    # Generate bar chart
+    fig, ax = plt.subplots()
+    summary_df.plot(kind='bar', ax=ax)
+    ax.set_xticklabels(summary_df.index, rotation=0)
+    ax.set_ylabel("Amount")
+    ax.set_title("Summary")
+    plt.tight_layout()
+
+    # Save bar chart as PNG
+    bar_chart_output_path = OUTPUT_DIR / f"summary_bar_chart_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+    plt.savefig(bar_chart_output_path)
+    logger.info("Saved summary bar chart as PNG to: %s", bar_chart_output_path)
+
+    return summary_df
+
+# ------------------------
 # Main Execution
 # ------------------------
 
@@ -91,5 +118,10 @@ if __name__ == "__main__":
         output_path = OUTPUT_DIR / f"merged_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
         merged_df.to_excel(output_path, index=False)
         logger.info("Saved merged Excel file to: %s", output_path)
+
+        summary_df = generate_summary(merged_df)
+        summary_output_path = OUTPUT_DIR / f"summary_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        summary_df.to_excel(summary_output_path, index=False)
+        logger.info("Saved summary Excel file to: %s", summary_output_path)
     else:
         logger.info("No data merged. Please add .xlsx files to the /data folder.")

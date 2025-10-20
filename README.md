@@ -159,6 +159,15 @@ Attachment: `report_2025-10-18.xlsx`
 
 ---
 
+## How It Works
+1. Put your Excel files in `/data`.
+2. Run `python automation.py`.
+3. Outputs are saved to `/output` as timestamped Excel files.
+4. Optional: `python automation.py send_email` to email attachments.
+
+
+**Features:** Merging, basic cleaning, auto summaries, logging, and email notifications.
+
 ## 🧱 Future Enhancements
 
 * 🖥️ Add Tkinter GUI (buttons for “Select File”, “Send Report”)
